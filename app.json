@@ -1,0 +1,16 @@
+{
+    "name": "commitlog-web",
+    "description": "Web version for commitlog",
+    "repository": "https://github.com/barelyhuman/commitlog-web",
+    "keywords": [
+        "changelog",
+        "webapp",
+        "commitlog",
+        "commits"
+    ],
+    "buildpacks": [
+        {
+            "url": "heroku/go"
+        }
+    ]
+}
