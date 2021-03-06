@@ -1,6 +1,11 @@
 {{define "headerHTML"}}
 <header class="container-boundaries">
-  <h1>commitlog</h1>
+  <div class="flex justify-between">
+    <h1>commitlog</h1>
+    <div class="ml-auto needs-js">
+      <button id="theme-toggle" class="no-border icon"></button>
+    </div>
+  </div>
   {{template "navbarHTML" .}}
 </header>
 {{end}}
