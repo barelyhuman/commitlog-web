@@ -9,6 +9,10 @@ github.com/armon/go-socks5 v0.0.0-20160902184237-e75332964ef5 h1:0CwZNZbxp69SHPd
 github.com/armon/go-socks5 v0.0.0-20160902184237-e75332964ef5/go.mod h1:wHh0iHkYZB8zMSxRWpUBQtwG5a7fFgvEO+odwuTv2gs=
 github.com/barelyhuman/commitlog v0.0.5-dev.0 h1:sFtXRepGfLVo8j9vWsTONpyVNo57ms4t+5FBuXDo2eQ=
 github.com/barelyhuman/commitlog v0.0.5-dev.0/go.mod h1:Sl766wLdmNNOsZs5ryyx7L5Ve7fZHQCESiEyLD4FM38=
+github.com/barelyhuman/commitlog v0.0.5 h1:YRuuytXJLtBsQWHrmKXeLgOWKTPnwGDd2yuZd8gLbpQ=
+github.com/barelyhuman/commitlog v0.0.5/go.mod h1:Sl766wLdmNNOsZs5ryyx7L5Ve7fZHQCESiEyLD4FM38=
+github.com/barelyhuman/commitlog v0.0.6-0.20210306120156-d0147977e373 h1:xSWM3JIN1TZjt+HslxNdFqmK/vfOYW2U2ciMfeh6p1g=
+github.com/barelyhuman/commitlog v0.0.6-0.20210306120156-d0147977e373/go.mod h1:Sl766wLdmNNOsZs5ryyx7L5Ve7fZHQCESiEyLD4FM38=
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
