@@ -15,6 +15,7 @@ import (
 type Repo struct {
 	Name      string
 	Changelog string
+	URL       string
 }
 
 func main() {
@@ -47,7 +48,6 @@ func viewHomePage(rw http.ResponseWriter, r *http.Request) {
 }
 
 func handleGenerateRequest(rw http.ResponseWriter, r *http.Request) {
-
 	switch r.Method {
 	case http.MethodGet:
 		viewGeneratePage(rw, r)
@@ -55,6 +55,7 @@ func handleGenerateRequest(rw http.ResponseWriter, r *http.Request) {
 	case http.MethodPost:
 		generateCommitlog(rw, r)
 		break
+
 	default:
 		http.Error(rw, fmt.Errorf("Error").Error(), http.StatusNotFound)
 		break
@@ -72,17 +73,6 @@ func generateCommitlog(rw http.ResponseWriter, r *http.Request) {
 		shortened = urlToClone[len("https://github.com/"):]
 	}
 
-	_, err := git.PlainClone(path.Join("tmp", shortened), false, &git.CloneOptions{
-		URL: urlToClone,
-	})
-
-	if err != nil {
-		if !strings.Contains(err.Error(), "repository already exists") {
-			http.Error(rw, err.Error(), http.StatusInternalServerError)
-			return
-		}
-	}
-
 	rw.Header().Set("Cache-Control", "no-cache")
 	http.Redirect(rw, r, "/generate?repo="+shortened, http.StatusSeeOther)
 }
@@ -98,6 +88,23 @@ func viewGeneratePage(rw http.ResponseWriter, r *http.Request) {
 		http.Error(rw, fmt.Errorf("no repo received").Error(), http.StatusInternalServerError)
 		return
 	}
+
+	if !(strings.Contains(repo.Name, "https:") || strings.Contains(repo.Name, "http:")) {
+		repo.Name = "https://github.com/" + repo.Name
+	}
+
+	_, err := git.PlainClone(path.Join("tmp", repo.Name), false, &git.CloneOptions{
+		URL: repo.Name,
+	})
+
+	if err != nil {
+		if !strings.Contains(err.Error(), "repository already exists") {
+			http.Error(rw, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	}
+
+	rw.Header().Set("Cache-Control", "no-cache")
 
 	if _, err := os.Stat(path.Join("tmp", repo.Name)); os.IsNotExist(err) {
 		http.Error(rw, fmt.Errorf("Couldn't find repository").Error(), http.StatusInternalServerError)
