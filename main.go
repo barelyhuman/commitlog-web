@@ -1,10 +1,14 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"path"
+	"path/filepath"
 	"strings"
 	"text/template"
 
@@ -12,16 +16,26 @@ import (
 	git "github.com/go-git/go-git/v5"
 )
 
+// Repo - construct containing the details of the cloned repo
 type Repo struct {
-	Name      string
-	Changelog string
-	URL       string
+	Name      string `json:"name"`
+	Changelog string `json:"changelog"`
 }
+
+var templates *template.Template
 
 func main() {
 
+	var err error
+	templates, err = parseTemplates()
+	if err != nil {
+		log.Println("Error parsing templates, starting only API")
+	}
+
+	http.HandleFunc("/generate.json", handleGenerateRequest)
 	http.HandleFunc("/generate", handleGenerateRequest)
-	http.HandleFunc("/", viewHomePage)
+	http.HandleFunc("/", viewPage)
+	http.HandleFunc("/about", viewPage)
 	fs := http.FileServer(http.Dir("./static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
@@ -33,16 +47,32 @@ func main() {
 	http.ListenAndServe(port, nil)
 }
 
-func viewHomePage(rw http.ResponseWriter, r *http.Request) {
-	htmlFile := path.Join("templates", "home.html")
-	tmpl, err := template.ParseFiles(htmlFile)
-	if err != nil {
-		http.Error(rw, err.Error(), http.StatusInternalServerError)
-		return
+func parseTemplates() (templates *template.Template, err error) {
+	const directory = "templates"
+	var allFiles []string
+
+	dirContents, _ := ioutil.ReadDir(directory)
+	for _, file := range dirContents {
+		filename := file.Name()
+		if strings.HasSuffix(filename, ".html") {
+			filePath := filepath.Join(directory, filename)
+			allFiles = append(allFiles, filePath)
+		}
+	}
+
+	templates, err = template.New("").ParseFiles(allFiles...)
+	return
+}
+
+func viewPage(rw http.ResponseWriter, r *http.Request) {
+	pathFile := r.URL.Path[len("/"):]
+	if pathFile == "" {
+		pathFile = "home"
 	}
 
 	rw.Header().Set("Content-Type", "text/html")
-	if err := tmpl.Execute(rw, nil); err != nil {
+	rw.Header().Set("Cache-Control", "no-cache")
+	if err := templates.ExecuteTemplate(rw, pathFile+"HTML", nil); err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 	}
 }
@@ -79,8 +109,13 @@ func generateCommitlog(rw http.ResponseWriter, r *http.Request) {
 
 func viewGeneratePage(rw http.ResponseWriter, r *http.Request) {
 	repo := Repo{}
+	asJSON := false
 
 	queryValues := r.URL.Query()
+
+	if r.URL.Path == "/generate.json" {
+		asJSON = true
+	}
 
 	if len(queryValues["repo"]) > 0 {
 		repo.Name = queryValues["repo"][0]
@@ -115,6 +150,12 @@ func viewGeneratePage(rw http.ResponseWriter, r *http.Request) {
 
 	if clogError.Err != nil {
 		http.Error(rw, clogError.Message, http.StatusInternalServerError)
+		return
+	}
+
+	if asJSON {
+		rw.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(rw).Encode(repo)
 		return
 	}
 

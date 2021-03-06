@@ -1,0 +1,190 @@
+{{define "aboutHTML"}}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>commitlog Web | Reaper</title>
+    <link rel="stylesheet" href="static/styles/styles.css" />
+  </head>
+  <body>
+    {{template "headerHTML" .}}
+    <section class="container-boundaries">
+      <article>
+        <h1>About</h1>
+
+        <p>Changelog generator using Commit History</p>
+        <p>
+          <img
+            src="https://github.com/barelyhuman/commitlog/workflows/Binary%20Builds/badge.svg"
+            alt="Binary Builds"
+          />
+          <img
+            src="https://github.com/barelyhuman/commitlog/workflows/Binary%20Builds%20Pre-Releases/badge.svg"
+            alt="Binary Builds Pre-Releases"
+          />
+          <a
+            href="https://goreportcard.com/report/github.com/barelyhuman/commitlog"
+            ><img
+              src="https://goreportcard.com/badge/github.com/barelyhuman/commitlog"
+              alt="Go Report Card"
+          /></a>
+          <a href="https://github.com/barelyhuman/commitlog"
+            ><img
+              src="https://img.shields.io/badge/changelogs-commitlog-blue"
+              alt="commitlog"
+          /></a>
+        </p>
+        <p>
+          To see an example of this in action, you can check the actions file
+          for this repo. Yes it uses itself to generate the release logs
+        </p>
+        <h2 id="sheilds--badges">Sheilds | Badges</h2>
+        <p>
+          <a href="https://github.com/barelyhuman/commitlog"
+            ><img
+              src="https://img.shields.io/badge/changelogs-commitlog-blue"
+              alt="commitlog"
+          /></a>
+        </p>
+        <pre><code class="language-markdown">[![commitlog](https://img.shields.io/badge/changelogs-commitlog-blue)](https://github.com/barelyhuman/commitlog)
+            </code></pre>
+        <h2 id="binaries">Binaries</h2>
+        <p>
+          Binaries are available on the Github
+          <a href="https://github.com/barelyhuman/commitlog/releases"
+            >releases</a
+          >
+        </p>
+        <h2 id="build">Build</h2>
+        <p>
+          This step is for people who want to use the latest version from the
+          repositories which hasn't been added to releases as a binary yet and
+          for people viewing this on sourcehut , as the binaries aren't uploaded
+          to sourcehut.
+        </p>
+        <ul>
+          <li>
+            Make sure you have go installed on your system , minimum version
+            <code>1.15</code>
+          </li>
+          <li>
+            You can either clone the whole repo from sourcehut / github or
+            downlad a tar.gz from sourcehut / github
+          </li>
+        </ul>
+        <h3 id="with-clone">With Clone</h3>
+        <pre><code class="language-sh">git clone https://git.sr.ht/~reaper/commitlog
+            # or 
+            git clone https://github.com/barelyhuman/commitlog
+            
+            cd commitlog 
+            go build 
+            </code></pre>
+        <h3 id="with-tarballs">With Tarballs</h3>
+        <pre><code class="language-sh">tar -xvzf commitlog-&lt;hash&gt;.tar.gz
+            cd commitlog 
+            go build 
+            </code></pre>
+        <pre><code class="language-sh"># to install it to go's bin folder and use the commitlog command during dev or as a perm install
+            go install 
+            </code></pre>
+        <h3 id="web-version">Web Version</h3>
+        <p>
+          Source:
+          <a href="https://github.com/barelyhuman/commitlog-web"
+            >commitlog-web</a
+          >
+        </p>
+        <p>
+          Web App:
+          <a href="https://commitlog-web.herokuapp.com/">commitlog-web</a>
+        </p>
+        <h2 id="usage">Usage</h2>
+        <p>
+          The usage is pretty simple, this cli tool assumes that you use
+          <a
+            href="https://github.com/conventional-changelog/commitlint#what-is-commitlint"
+            >commitlint standards</a
+          >
+          while writing your commits, if not it's okay everything will be
+          classified under <code>Other Changes</code> instead of being grouped
+          according to type of commit.
+        </p>
+        <p>
+          <strong>Simple Overview</strong><br /><code>ci: &lt;message&gt;</code>
+          - for ci/cd changes<br /><code>feat|feature: &lt;message&gt;</code> -
+          for feature changes<br /><code>docs: &lt;message&gt;</code> - for
+          documents or comment updations in code<br /><code
+            >refactor: &lt;message&gt;</code
+          >
+          - performance / code clean up changes or total BLOC changes<br /><code
+            >fix: &lt;message&gt;</code
+          >
+          - for fixes (self-explanatory)
+        </p>
+        <h3 id="supported-flags-as-of-v004-dev3">
+          Supported Flags (as of v0.0.4-dev.3)
+        </h3>
+        <p>
+          The below mentioned are the flags supported by the current branch and
+          older tags might not support the flags or certain inputs in flags, use
+          the <code>-h</code> flag to see what's supported on the version you
+          are using.
+        </p>
+        <pre><code class="language-sh">Usage of commitlog:
+              -e string
+                    commit hash string / revision (ex. HEAD, HEAD^, HEAD~2) 
+                     to stop collecting commit message at
+              -i string
+                    commit types to be includes (default "ci,refactor,docs,fix,feat,test,chore,other")
+              -p string
+                    path to the repository, points to the current working directory by default (default ".")
+              -s string
+                    commit hash string / revision (ex. HEAD, HEAD^, HEAD~2) 
+                     to start collecting commit messages from
+              -skip
+                    if true will skip trying to classify and just give a list of changes
+            </code></pre>
+        <h3 id="example-output-from-this-exact-repository">
+          Example Output (from this exact repository)
+        </h3>
+        <pre><code class="language-sh">&gt; commitlog 
+            </code></pre>
+        <pre><code class="language-markdown"># Changelog
+            
+            ## Fixes
+            
+            97c582b3eb5a6796ef9c250d9653ad90dce63cbe - fix: example fix
+            
+            ## Other Changes
+            
+            da6d837eb3134f836bfbe401de7882f2e0818ba8 - Create LICENSE
+            b0f1b1d2bc4265cb72b70b3ae5b60f8e65f47b12 - initial commit
+            </code></pre>
+        <h2 id="current-limitations">Current Limitations</h2>
+        <ul>
+          <li>
+            No Tests added so is probably unstable right now ( If you'd like to
+            help writing tests, feel free to raise a PR)
+          </li>
+          <li>
+            Doesn't work inside a nested folder in the repository, needs to be
+            on the root of the repository to work. (you can use the
+            <code>-p</code> flag to set a path to generate logs from)
+          </li>
+        </ul>
+        <h2 id="contribution">Contribution</h2>
+        <p><a href="CONTRIBUTING.md">Contribution Guidelines</a></p>
+        <p>
+          <a href="https://www.buymeacoffee.com/barelyhuman"
+            ><img
+              src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&amp;emoji=&amp;slug=barelyhuman&amp;button_colour=000000&amp;font_colour=ffffff&amp;font_family=Inter&amp;outline_colour=ffffff&amp;coffee_colour=FFDD00"
+          /></a>
+        </p>
+      </article>
+    </section>
+  </body>
+</html>
+{{end}}
