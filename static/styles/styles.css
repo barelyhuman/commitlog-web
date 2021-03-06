@@ -118,6 +118,10 @@ footer {
   padding: 16px;
 }
 
+li {
+  line-height: 30px;
+}
+
 /* Dark Mode Resets */
 
 body[data-dark-mode] button:hover {
@@ -290,7 +294,6 @@ input.large {
 .bg-default {
   background-color: var(--bg);
 }
-
 
 .banner {
   border-radius: 8px;

@@ -10,6 +10,7 @@ This is just a web version of the the cli utility you can find at [commitlog](ht
 
 # Key Features
 - Generate changelog using commitlog for any public repo
+- Get json response by replacing `/generate` to `/generate.json` 
 
 # Dev 
 - fork this repository 
