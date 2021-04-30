@@ -128,6 +128,8 @@ func viewGeneratePage(rw http.ResponseWriter, r *http.Request) {
 		repo.Name = "https://github.com/" + repo.Name
 	}
 
+	os.RemoveAll(path.Join("tmp", repo.Name));
+
 	_, err := git.PlainClone(path.Join("tmp", repo.Name), false, &git.CloneOptions{
 		URL: repo.Name,
 	})
