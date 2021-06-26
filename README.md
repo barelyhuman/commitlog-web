@@ -1,6 +1,7 @@
-# Commitlog Web
+<h1 align="center">commitlog-web</h1>
+<p align="center">commit changelogs as a web service </p>
 
-This is just a web version of the the cli utility you can find at [commitlog](https://github.com/barelyhuman/commitlog). The app uses commitlog internally.
+If you do like this or anything else from my set of mini tools, do consider supporting via any of the methods at [barelyhuman/donate](https://barelyhuman.dev/donate)
 
 # Motivation 
 [This hackernews comment](https://news.ycombinator.com/item?id=26165865)
@@ -8,22 +9,12 @@ This is just a web version of the the cli utility you can find at [commitlog](ht
 # Deploy your own
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
-# Key Features
+# Features
 - Generate changelog using commitlog for any public repo
 - Get json response by replacing `/generate` to `/generate.json` 
-
-# Dev 
-- fork this repository 
-- clone it
-- pick an issue/request you feel like working on
-- raise a pull request
 
 # Contribution 
 [Contribution Guidelines](CONTRIBUTING.md)
 
 # License
-[License](LICENSE)
-
-# Support
-
-<a href="https://www.buymeacoffee.com/barelyhuman"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=barelyhuman&button_colour=000000&font_colour=ffffff&font_family=Inter&outline_colour=ffffff&coffee_colour=FFDD00"></a>
+[MIT](LICENSE) &copy; Reaper
